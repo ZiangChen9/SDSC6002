@@ -1,6 +1,4 @@
-Here's the enhanced README file incorporating all the detailed project structure information:
-
-# Bayesian Optimization Benchmark Study
+# Code for Bayesian Optimization for Noisy Black-box Functions: A Comparative Study Using BoTorch
 
 ## Project Overview
 This repository contains a comprehensive benchmark study of Bayesian optimization methods applied to standard test functions. The project implements and evaluates multiple acquisition functions and Gaussian Process configurations, with complete experimental pipelines from data collection to statistical analysis.
