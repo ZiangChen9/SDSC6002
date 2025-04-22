@@ -18,41 +18,57 @@ from collections import defaultdict
 # ======================
 # CONFIGURATION
 # ======================
-plt.rcParams['font.family'] = 'serif'
-plt.rcParams['font.serif'] = ['Liberation Serif', 'Times New Roman', 'Times']
-plt.rcParams['mathtext.fontset'] = 'custom'
-plt.rcParams['mathtext.rm'] = 'Liberation Serif'
-plt.rcParams['mathtext.it'] = 'Liberation Serif:italic'
-plt.rcParams['mathtext.bf'] = 'Liberation Serif:bold'
+plt.rcParams["font.family"] = "serif"
+plt.rcParams["font.serif"] = ["Liberation Serif", "Times New Roman", "Times"]
+plt.rcParams["mathtext.fontset"] = "custom"
+plt.rcParams["mathtext.rm"] = "Liberation Serif"
+plt.rcParams["mathtext.it"] = "Liberation Serif:italic"
+plt.rcParams["mathtext.bf"] = "Liberation Serif:bold"
 
-plt.rcParams['font.size'] = 12
-plt.rcParams['axes.titlesize'] = 14
-plt.rcParams['axes.labelsize'] = 12
-plt.rcParams['legend.fontsize'] = 11
-plt.rcParams['xtick.labelsize'] = 11
-plt.rcParams['ytick.labelsize'] = 11
+plt.rcParams["font.size"] = 12
+plt.rcParams["axes.titlesize"] = 14
+plt.rcParams["axes.labelsize"] = 12
+plt.rcParams["legend.fontsize"] = 11
+plt.rcParams["xtick.labelsize"] = 11
+plt.rcParams["ytick.labelsize"] = 11
 
 # Enhanced color palette
 PALETTE = [
-    '#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd',
-    '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf',
-    '#aec7e8', '#ffbb78', '#98df8a', '#ff9896', '#c5b0d5'
+    "#1f77b4",
+    "#ff7f0e",
+    "#2ca02c",
+    "#d62728",
+    "#9467bd",
+    "#8c564b",
+    "#e377c2",
+    "#7f7f7f",
+    "#bcbd22",
+    "#17becf",
+    "#aec7e8",
+    "#ffbb78",
+    "#98df8a",
+    "#ff9896",
+    "#c5b0d5",
 ]
 
-LINE_STYLES = ['-', '--', '-.', ':']
-MARKERS = ['o', 's', 'D', '^', 'v', '<', '>', 'p', '*', 'h', 'H', '+', 'x', 'X', 'd']
+LINE_STYLES = ["-", "--", "-.", ":"]
+MARKERS = ["o", "s", "D", "^", "v", "<", ">", "p", "*", "h", "H", "+", "x", "X", "d"]
 
-sns.set_style("whitegrid", {
-    'axes.edgecolor': '0.3',
-    'grid.color': '#f0f0f0',
-    'axes.grid': True,
-    'axes.axisbelow': True
-})
+sns.set_style(
+    "whitegrid",
+    {
+        "axes.edgecolor": "0.3",
+        "grid.color": "#f0f0f0",
+        "axes.grid": True,
+        "axes.axisbelow": True,
+    },
+)
 
-input_dir = "final"
-output_dir = "statistic_show"
+input_dir = "/home/ziangchen9/home/ziangchen9/home/ziangchen9/yao-SDSC6002/Experiments/results-Easom/final"
+output_dir = "/home/ziangchen9/home/ziangchen9/home/ziangchen9/yao-SDSC6002/Experiments/results-Easom/statistic_show"
 os.makedirs(output_dir, exist_ok=True)
 os.makedirs(input_dir, exist_ok=True)
+
 
 # ======================
 # UTILITY FUNCTIONS
@@ -62,13 +78,14 @@ def clean_algorithm_name(filename):
     name = os.path.splitext(filename)[0]
     return name.replace("result_reals_", "").replace("_processed", "")
 
+
 # ======================
 # PLOTTING FUNCTION
 # ======================
 def plot_all_data(all_files_data, color_palette):
     """Plot all algorithms in a single plot with refined styling"""
     fig, ax = plt.subplots(figsize=(14, 8), dpi=300)
-    fig.set_facecolor('white')
+    fig.set_facecolor("white")
 
     # Ensure all files have at least 81 columns
     min_columns = 81
@@ -85,7 +102,9 @@ def plot_all_data(all_files_data, color_palette):
         if len(data.columns) >= min_columns:
             truncated_data = data.iloc[:, :min_columns]
         else:
-            print(f"Warning: File {filename} has fewer than {min_columns} columns. Skipping.")
+            print(
+                f"Warning: File {filename} has fewer than {min_columns} columns. Skipping."
+            )
             continue
 
         # Calculate statistics
@@ -107,64 +126,71 @@ def plot_all_data(all_files_data, color_palette):
         algorithm_name = clean_algorithm_name(filename)
 
         # Plot main line
-        ax.plot(staggered_x, mean_values,
-                color=color,
-                linestyle=line_style,
-                linewidth=1.8,
-                marker=marker,
-                markersize=5,
-                markeredgecolor=color,
-                markerfacecolor='white',
-                markevery=sample_freq,
-                label=algorithm_name,
-                zorder=4)
+        ax.plot(
+            staggered_x,
+            mean_values,
+            color=color,
+            linestyle=line_style,
+            linewidth=1.8,
+            marker=marker,
+            markersize=5,
+            markeredgecolor=color,
+            markerfacecolor="white",
+            markevery=sample_freq,
+            label=algorithm_name,
+            zorder=4,
+        )
 
         # Add error bars
-        ax.errorbar(staggered_x[::sample_freq],
-                    mean_values[::sample_freq],
-                    yerr=ci_width[::sample_freq],
-                    fmt='none',
-                    ecolor=color,
-                    elinewidth=0.8,
-                    capsize=3,
-                    capthick=0.8,
-                    alpha=0.8,
-                    zorder=3)
+        ax.errorbar(
+            staggered_x[::sample_freq],
+            mean_values[::sample_freq],
+            yerr=ci_width[::sample_freq],
+            fmt="none",
+            ecolor=color,
+            elinewidth=0.8,
+            capsize=3,
+            capthick=0.8,
+            alpha=0.8,
+            zorder=3,
+        )
 
     # Reference line
-    ax.axhline(y=0, color='black', linestyle='--', linewidth=1.2, alpha=0.6, zorder=5)
+    ax.axhline(
+        y=-1.0, color="black", linestyle="--", linewidth=1.2, alpha=0.6, zorder=5
+    )
 
     # Styling
-    ax.set_title(f"Performance Comparison: Easom", fontweight='bold', pad=15)
-    ax.set_xlabel('Number of Evaluations', labelpad=10)
-    ax.set_ylabel('Best Value Found', labelpad=10)
+    ax.set_title(f"Performance Comparison: Easom", fontweight="bold", pad=15)
+    ax.set_xlabel("Number of Evaluations", labelpad=10)
+    ax.set_ylabel("Best Value Found", labelpad=10)
     ax.xaxis.set_major_locator(MaxNLocator(integer=True))
     ax.yaxis.set_major_locator(MaxNLocator(10))
     ax.set_xlim(x_values[0] - 0.5, x_values[-1] + 0.5)
 
     # Grid and borders
-    ax.grid(True, linestyle=':', linewidth=0.5, alpha=0.6)
+    ax.grid(True, linestyle=":", linewidth=0.5, alpha=0.6)
     for spine in ax.spines.values():
-        spine.set_edgecolor('0.3')
+        spine.set_edgecolor("0.3")
         spine.set_linewidth(0.8)
 
     # Legend
-    legend = ax.legend(loc='best', framealpha=0.95,
-                       edgecolor='0.9', facecolor='white')
+    legend = ax.legend(loc="best", framealpha=0.95, edgecolor="0.9", facecolor="white")
     legend.get_frame().set_linewidth(0.7)
 
     # Save
     output_filename = "all_algorithms.png"
     output_path = os.path.join(output_dir, output_filename)
-    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+    plt.savefig(output_path, dpi=300, bbox_inches="tight")
     plt.close()
     print(f"Saved plot: {output_path}")
+
 
 # ======================
 # MAIN PROCESSING
 # ======================
 def main():
-    csv_files = sorted([f for f in os.listdir(input_dir) if f.endswith('.csv')])
+    csv_files = sorted([f for f in os.listdir(input_dir) if f.endswith(".csv")])
 
     if not csv_files:
         print(f"No CSV files found in directory: {input_dir}")
@@ -195,6 +221,7 @@ def main():
         print("No valid files with at least 81 columns found.")
 
     print(f"\nProcessing complete! Results saved to: {os.path.abspath(output_dir)}")
+
 
 if __name__ == "__main__":
     main()
