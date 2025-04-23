@@ -9,15 +9,13 @@ This repository contains a comprehensive benchmark study of Bayesian optimizatio
 ├── DataCollection/                           # Core optimization implementations
 │   ├── Ackley/                               # Complete Ackley function study
 │   │   ├── qKG/                              # Knowledge Gradient
-│   │   ├── ConstantMean/                     # Constant mean variants
-│   │   │   ├── Matern(1.5).ipynb            # Matern 1.5 kernel
-│   │   │   ├── Matern(2.5).ipynb            # Matern 2.5 kernel
-│   │   │   ├── RBF.ipynb                     # Standard RBF
-│   │   │   └── result_reals_*.csv            # Combined results
+│   │   ├──── ConstantMean/                     # Constant mean variants
+│   │   │   ├──── Matern(1.5).ipynb            # Matern 1.5 kernel
+│   │   │   ├──── Matern(2.5).ipynb            # Matern 2.5 kernel
+│   │   │   ├──── RBF.ipynb                     # Standard RBF
+│   │   ├──── 3 mean functions/                 # Constant/Linear/Quadratic
 │   │   ├── 7 other acquisition functions/    # qLBMVE, qPES, etc.
-│   │   ├── 3 mean functions/                 # Constant/Linear/Quadratic
-│   │   └── Thompson Sampling/
-│   │       └── move_csv.py                   # Results management
+│   │   └── move_csv.py                   # Results management
 │   ├── Bohachevsky/                          # Other benchmark functions
 │   ├── Booth/
 │   └── ......
